@@ -1,0 +1,51 @@
+import datetime
+
+class Calendar:
+    def __init__(self):
+        self.events = {}
+        self.energy_levels = {}
+
+    def add_event(self, date, event):
+        if date in self.events:
+            self.events[date].append(event)
+        else:
+            self.events[date] = [event]
+
+    def get_events(self, date):
+        return self.events.get(date, [])
+
+    def ask_energy_level(self, date):
+        level = input(f"Enter your energy level for {date} (low, medium, high): ").strip().lower()
+        self.energy_levels[date] = level
+
+    def suggest_tasks(self, date):
+        energy_level = self.energy_levels.get(date, 'medium')
+        suggestions = {
+            'low': ["Read a book", "Meditate", "Go for a light walk"],
+            'medium': ["Work on a hobby", "Complete moderate tasks", "Exercise"],
+            'high': ["Tackle challenging work tasks", "Intense workout", "Start a new project"]
+        }
+        return suggestions.get(energy_level, [])
+
+    def show_calendar(self, date):
+        print(f"Events on {date}:")
+        for event in self.get_events(date):
+            print(f"- {event}")
+        print(f"Energy level: {self.energy_levels.get(date, 'not recorded')}")
+        print("Suggested tasks:")
+        for task in self.suggest_tasks(date):
+            print(f"- {task}")
+
+# Example usage
+calendar = Calendar()
+
+# Adding events to the calendar
+calendar.add_event("2024-07-23", "Meeting with team")
+calendar.add_event("2024-07-23", "Doctor's appointment")
+
+# Asking for energy level
+today = str(datetime.date.today())
+calendar.ask_energy_level(today)
+
+# Displaying the calendar with suggestions
+calendar.show_calendar(today)
